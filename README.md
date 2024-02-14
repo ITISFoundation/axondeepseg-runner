@@ -1,4 +1,4 @@
-# AxonDeepSeg within JupyterLab on o²S²PARC
+# AxonDeepSeg Runner on o²S²PARC
 
 ![](https://github.com/axondeepseg/axondeepseg/blob/master/docs/source/_static/logo_ads-alpha.png?raw=true)
 
