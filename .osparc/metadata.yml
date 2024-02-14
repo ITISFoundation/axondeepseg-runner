@@ -1,0 +1,120 @@
+name: AxonDeepSeg Runner
+key: simcore/services/comp/axondeepseg-runner
+type: computational
+integration-version: 1.0.0
+version: 1.0.0
+description: AxonDeepSeg Runner
+contact: iavarone@itis.swiss
+thumbnail: https://github.com/ITISFoundation/osparc-assets/blob/cb43207b6be2f4311c93cd963538d5718b41a023/assets/default-thumbnail-cookiecutter-osparc-service.png?raw=true
+authors:
+  - name: Elisabetta Iavarone
+    email: iavarone@itis.swiss
+    affiliation: IT'IS Foundation
+inputs:
+  input_1:
+    displayOrder: 1
+    label: Image
+    description: Axon image to segment
+    type: data:*/*
+  input_2:
+    displayOrder: 2
+    label: Modality
+    description:
+     Type of acquisition to segment. SEM, scanning electron microscopy. TEM, transmission electron microscopy. BF, bright field optical microscopy
+    type: ref_contentSchema
+    contentSchema: 
+      title: Modality
+      type: string
+      enum: [SEM, TEM, BF]
+  input_3:
+    displayOrder: 3
+    label: Size Pixel
+    description: 
+     Pixel size of the image(s) to segment, in micrometers. Single float number corresponding to the resolution of the image, i.e. the pixel size
+    type: ref_contentSchema
+    defaultValue: 0.07
+    contentSchema: 
+      title: Size Pixel
+      type: number
+      x_unit: micro-meter
+  input_4:
+    displayOrder: 4
+    label: Overlap
+    description: 
+     Overlap value (in pixels) of the patches when doing the segmentation. 
+     Higher values of overlap can improve the segmentation at patch borders, but also increase the segmentation time. 
+    type: ref_contentSchema
+    defaultValue: 48
+    contentSchema: 
+      title: Overlap
+      type: integer
+      minimum: 10
+      maximum: 100
+  input_5:
+    displayOrder: 5
+    label: Zoom Factor
+    description: 
+     When applying the model, the size of the segmentation patches relative to the image size will change according to this factor.
+    type: ref_contentSchema
+    defaultValue: 1
+    contentSchema: 
+      title: Zoom Factor
+      type: number
+  input_6:
+    displayOrder: 6
+    label: No patch
+    description: 
+     Flag to segment the image without using patches. The “no-patch” flag supersedes the “overlap” flag. 
+     This option could potentially produce better results but may not be suitable with large images depending on computer RAM capacity.
+    type: boolean
+    defaultValue: false
+  input_7:
+    displayOrder: 7
+    label: Verbosity
+    description:
+     Verbosity level for the segmentation. 
+     Quiet Mode, shows minimal information on the Logger. 
+     Developer Mode, shows more information on the Logger, useful for debugging.
+    type: ref_contentSchema
+    contentSchema: 
+      title: Verbosity
+      type: string
+      default: Quiet Mode
+      enum: [Quiet Mode, Developer Mode]
+  input_8:
+    displayOrder: 8
+    label: Axon Shape
+    description:
+       Axon Shape to compute diamaters after the segmentation. 
+       Circle, axon shape is considered as circle. In this case, diameter is computed using equivalent diameter. 
+       Ellipse, axon shape is considered as an ellipse. In this case, diameter is computed using ellipse minor axis.
+    type: ref_contentSchema
+    contentSchema: 
+      title: Verbosity
+      type: string
+      default: Circle
+      enum: [Circle, Ellipse]
+  input_9:
+    displayOrder: 9
+    label: Add Bounding Box
+    description:
+     Flag to extract additional bounding box information on axonmyelin objects. 
+     Specifying this option will add a boolean value indicating if the axon touches one of the image border.
+     It will also output every axon bounding box (including its myelin).
+    type: boolean
+    defaultValue: false
+outputs:
+  output_1:
+    displayOrder: 1
+    label: Segmented image
+    description: Archive containing the input image and images corresponding to the segmented axon and myelin
+    type: data:*/*
+    fileToKeyMap:
+      segmented_image.zip: output_1
+  output_2:
+    displayOrder: 2
+    label: Morphometrics
+    description: File containing axon and myelin morphometrics from the segmented image
+    type: data:*/*
+    fileToKeyMap:
+      axon_morphometrics.csv: output_2    

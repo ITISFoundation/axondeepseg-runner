@@ -1,0 +1,6 @@
+version: "3.7"
+services:
+  axondeepseg-runner:
+    build:
+      dockerfile: docker/custom/Dockerfile
+      target: production

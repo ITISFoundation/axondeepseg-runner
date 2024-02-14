@@ -1,0 +1,33 @@
+
+#!/bin/sh
+#---------------------------------------------------------------
+# AUTO-GENERATED CODE, do not modify this will be overwritten!!!
+#---------------------------------------------------------------
+# shell strict mode:
+set -o errexit
+set -o nounset
+IFS=$(printf '\n\t')
+cd "$(dirname "$0")"
+json_input=$INPUT_FOLDER/inputs.json
+    
+INPUT_1=$INPUT_FOLDER/input_1
+export INPUT_1
+INPUT_2=$(< "$json_input" jq '.input_2')
+export INPUT_2
+INPUT_3=$(< "$json_input" jq '.input_3')
+export INPUT_3
+INPUT_4=$(< "$json_input" jq '.input_4')
+export INPUT_4
+INPUT_5=$(< "$json_input" jq '.input_5')
+export INPUT_5
+INPUT_6=$(< "$json_input" jq '.input_6')
+export INPUT_6
+INPUT_7=$(< "$json_input" jq '.input_7')
+export INPUT_7
+INPUT_8=$(< "$json_input" jq '.input_8')
+export INPUT_8
+INPUT_9=$(< "$json_input" jq '.input_9')
+export INPUT_9
+
+exec execute.sh
+    
