@@ -1,5 +1,6 @@
 #!/bin/bash
 # set sh strict mode
+set -e
 set -o errexit
 set -o nounset
 IFS=$(printf '\n\t')
