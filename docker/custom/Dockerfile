@@ -70,7 +70,7 @@ RUN  cd axondeepseg && \
 # Install torch for AxonDeepSeg+GPU
 # Versions from  https://pytorch.org/get-started/previous-versions/. No CUDA 11.2 mentioned, so using latest torch version for CUDA 11.3
 # TODO: check if torchvision and torchaudio are necessary
-RUN pip install torch==1.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113 && \
+RUN pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113 && \
     conda clean -afy 
 
 # ------------------------------------------------------------------------------------
