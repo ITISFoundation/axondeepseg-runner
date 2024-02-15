@@ -18,6 +18,8 @@ RUN apt-get update \
     jq \
     git \
     curl \
+    python3 \
+    python3-pip \
     && rm --recursive --force /var/lib/apt/lists/*
 
 # -------------------------- Build stage -------------------
@@ -32,52 +34,28 @@ ENV SC_BUILD_TARGET build
 
 WORKDIR /build
 
-# Install AxonDeepSec from doc instructions, via miniconda: https://axondeepseg.readthedocs.io/en/latest/documentation.html#installation
-# Change path to include conda commands
+COPY --chown=${SC_USER_NAME}:${SC_USER_NAME} src/ src/
 
-#ARG PATH="/opt/miniconda3/bin:${PATH}"
+RUN pip --no-cache --quiet install --upgrade pip && \
+    pip install -r src/requirements.txt
 
-ENV CONDA_DIR=/opt/miniconda3/
-
-RUN curl \
-    https://repo.anaconda.com/miniconda/Miniconda3-py38_23.10.0-1-Linux-x86_64.sh -o miniconda.sh && \
-    bash miniconda.sh -b -p ${CONDA_DIR} \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh
-
+# Clone and install AxonDeepSeg
 ENV ADS_SHA=9ab16452a1411788e845e5c1e2cd2301ba5e81b5
-
-ENV PATH="/opt/miniconda3/bin:${PATH}"
-
-#RUN conda install -d conda-forge conda-pack
-
-# Create conda env for axondeepseg
 RUN git clone https://github.com/neuropoly/axondeepseg.git && \
     cd axondeepseg && \
     git checkout -b release ${ADS_SHA} && \
-    conda init bash && \
-    conda env create && \  
-    conda clean -afy
+    pip install -e . && \
+    axondeepseg_test
 
-
-# "Activate" the conda env
-SHELL ["conda", "run", "-n", "ads_venv", "/bin/bash", "-c" ]
-
-RUN  cd axondeepseg && \
-     pip install -e . && \
-     conda clean -afy && \
-     axondeepseg_test
-
-# Install torch for AxonDeepSeg+GPU
+# Install torch for AxonDeepSeg+GPU.
 # Versions from  https://pytorch.org/get-started/previous-versions/. No CUDA 11.2 mentioned, so using latest torch version for CUDA 11.3
-# TODO: check if torchvision and torchaudio are necessary
-RUN pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113 && \
-    conda clean -afy 
+RUN pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113  --extra-index-url https://download.pytorch.org/whl/cu113
 
 # ------------------------------------------------------------------------------------
+
 # --------------------------Production stage -------------------
 # Final cleanup up to reduce image size and startup setup
 # Runs as ${SC_USER_NAME} (non-root user)
-#
 
 FROM base as production
 
@@ -91,10 +69,10 @@ ENV INPUT_FOLDER="/input" \
 
 WORKDIR /home/${SC_USER_NAME}
 
-# copy conda env where AxonDeepSeg is installed from build and build folder for AxonDeepSeg source code
-COPY --from=build --chown=${SC_USER_NAME}:${SC_USER_NAME} /opt/miniconda3/. /opt/miniconda3/
+# copy lib for python packages, bin for axondeepseg binaries, and build for AxonDeepSeg source
+COPY --from=build --chown=${SC_USER_NAME}:${SC_USER_NAME} /usr/local/lib /usr/local/lib
+COPY --from=build --chown=${SC_USER_NAME}:${SC_USER_NAME} /usr/local/bin /usr/local/bin
 COPY --from=build --chown=${SC_USER_NAME}:${SC_USER_NAME} /build /build
-
 
 # ------------------------------------------------------------------------------------
 # Install runtime dependencies

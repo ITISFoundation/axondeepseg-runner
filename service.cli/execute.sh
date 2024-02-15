@@ -52,7 +52,7 @@ fi
 
 # Launch segmentation
 # Activate AxonDeepSeg conda env 
-source /opt/miniconda3/bin/activate ads_venv
+#source /opt/miniconda3/bin/activate ads_venv
 echo "Starting segmentation with args ${args[@]}"
 axondeepseg "${args[@]}"
 echo "Segmentation completed successfully, adding it to first output..."
