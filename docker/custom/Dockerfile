@@ -48,25 +48,30 @@ ENV ADS_SHA=9ab16452a1411788e845e5c1e2cd2301ba5e81b5
 
 ENV PATH="/opt/miniconda3/bin:${PATH}"
 
+#RUN conda install -d conda-forge conda-pack
+
 # Create conda env for axondeepseg
 RUN git clone https://github.com/neuropoly/axondeepseg.git && \
     cd axondeepseg && \
     git checkout -b release ${ADS_SHA} && \
     conda init bash && \
-    conda env create
+    conda env create && \  
+    conda clean -afy
+
 
 # "Activate" the conda env
 SHELL ["conda", "run", "-n", "ads_venv", "/bin/bash", "-c" ]
 
 RUN  cd axondeepseg && \
-     pip install -e . plugins/ && \
+     pip install -e . && \
+     conda clean -afy && \
      axondeepseg_test
 
 # Install torch for AxonDeepSeg+GPU
 # Versions from  https://pytorch.org/get-started/previous-versions/. No CUDA 11.2 mentioned, so using latest torch version for CUDA 11.3
 # TODO: check if torchvision and torchaudio are necessary
-RUN pip install torch==1.12.0+cu113 torchvision==0.13.0+cu113 torchaudio==0.12.0 --extra-index-url https://download.pytorch.org/whl/cu113
-
+RUN pip install torch==1.12.0+cu113 --extra-index-url https://download.pytorch.org/whl/cu113 && \
+    conda clean -afy 
 
 # ------------------------------------------------------------------------------------
 # --------------------------Production stage -------------------
