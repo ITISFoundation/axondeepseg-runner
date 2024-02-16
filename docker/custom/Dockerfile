@@ -1,10 +1,4 @@
 FROM nvidia/cuda:11.2.2-base-ubuntu20.04 as base
-#
-#  USAGE:
-#     cd services/axondeepseg-runner
-#     docker build -f Dockerfile -t axondeepseg-runner:prod --target production ../../
-#     docker run axondeepseg-runner:prod
-#
 
 LABEL maintainer=elisabettai
 
@@ -23,7 +17,7 @@ RUN apt-get update \
     && rm --recursive --force /var/lib/apt/lists/*
 
 # -------------------------- Build stage -------------------
-# Installs build/package management tools and third party dependencies
+# Installs AxonDeepSeg and dependencies (src/requirements.txt)
 #
 # + /build             WORKDIR
 #
@@ -88,7 +82,6 @@ COPY --chown=${SC_USER_NAME}:${SC_USER_NAME} docker/custom/*.sh docker/
 COPY --chown=${SC_USER_NAME}:${SC_USER_NAME} service.cli/ service.cli/
 # necessary to be able to call run directly without sh in front
 ENV PATH="/home/${SC_USER_NAME}/service.cli:${PATH}"
-
 
 # ------------------------------------------------------------------------------------
 #TODO:

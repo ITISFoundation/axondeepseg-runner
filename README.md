@@ -22,9 +22,13 @@ Build the module:
 ```console
 $ make build
 ```
-To run locally:
+To run locally, e.g. for version 1.0.0:
 ```console
 docker run -it --rm  -v "${PWD}/validation/input:/input" -v "${PWD}/validation/output:/output"  simcore/services/comp/axondeepseg-runner:1.0.0
+```
+Once you're inside the container, type the following to start the segmentation and morphometrics extraction:
+```console
+run
 ```
 To publish in local throw-away registry:
 ```console
