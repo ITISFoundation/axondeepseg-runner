@@ -58,10 +58,10 @@ else
     usermod --uid "$HOST_USERID" --gid "$HOST_GROUPID" "$SC_USER_NAME"
     
     echo "Changing group properties of files around from $SC_USER_ID to group $CONT_GROUPNAME"
-    find / \( -path /proc -o -path /sys -o -path /opt -o -path /build \) -prune -o -group "$SC_USER_ID" -exec chgrp --no-dereference "$CONT_GROUPNAME" {} \;
+    find / \( -path /proc -o -path /sys -o -path /opt -o -path /build -o -path /usr \) -prune -o -group "$SC_USER_ID" -exec chgrp --no-dereference "$CONT_GROUPNAME" {} \;
     # change user property of files already around
     echo "Changing ownership properties of files around from $SC_USER_ID to group $CONT_GROUPNAME"
-    find / \( -path /proc -o -path /sys -o -path /opt  -o -path /build \) -prune -o -user "$SC_USER_ID" -exec chown --no-dereference "$SC_USER_NAME" {} \;
+    find / \( -path /proc -o -path /sys -o -path /opt  -o -path /build -o -path /usr \) -prune -o -user "$SC_USER_ID" -exec chown --no-dereference "$SC_USER_NAME" {} \;
 fi
 
 echo "Starting $* ..."
