@@ -25,3 +25,5 @@ pytest_*.xml
 !.dockerignore
 # git ignore
 !.gitignore
+.venv/
+docker-compose.yml
