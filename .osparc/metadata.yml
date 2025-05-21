@@ -2,7 +2,7 @@ name: AxonDeepSeg Runner
 key: simcore/services/comp/axondeepseg-runner
 type: computational
 integration-version: 1.0.0
-version: 1.0.0
+version: 1.0.1
 description: https://raw.githubusercontent.com/ZurichMedTech/s4l-assets/refs/heads/main/app/full/services/simcore_services_comp_axondeepseg-runner.md
 icon: https://raw.githubusercontent.com/ZurichMedTech/s4l-assets/main/app/icons/s4l/simcore_services_comp_axondeepseg-runner.svg
 thumbnail: https://raw.githubusercontent.com/ZurichMedTech/s4l-assets/main/app/thumbnails/s4l/simcore_services_comp_axondeepseg-runner.svg
