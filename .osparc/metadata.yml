@@ -3,9 +3,10 @@ key: simcore/services/comp/axondeepseg-runner
 type: computational
 integration-version: 1.0.0
 version: 1.0.0
-description: AxonDeepSeg Runner
+description: https://raw.githubusercontent.com/ZurichMedTech/s4l-assets/refs/heads/main/app/full/services/simcore_services_comp_axondeepseg-runner.md
+icon: https://raw.githubusercontent.com/ZurichMedTech/s4l-assets/main/app/icons/s4l/simcore_services_comp_axondeepseg-runner.svg
+thumbnail: https://raw.githubusercontent.com/ZurichMedTech/s4l-assets/main/app/thumbnails/s4l/simcore_services_comp_axondeepseg-runner.svg
 contact: iavarone@itis.swiss
-thumbnail: https://raw.githubusercontent.com/ITISFoundation/osparc-assets/main/assets/axondeepseg-runner-service-thumbnail.svg
 authors:
   - name: Elisabetta Iavarone
     email: iavarone@itis.swiss
